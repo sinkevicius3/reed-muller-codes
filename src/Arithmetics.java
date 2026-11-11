@@ -64,4 +64,8 @@ public final class Arithmetics {
     }
     return result;
   }
+
+  public static int abs(int value) { // Method is for integer absolute value
+    return (value < 0) ? -value : value;
+  }
 }
