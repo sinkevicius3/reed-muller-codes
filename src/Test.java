@@ -1,6 +1,6 @@
 public class Test {
   public static void main(String[] args){
-    int testingScenario = 5; // Change this value to select different test scenarios
+    int testingScenario = 6; // Change this value to select different test scenarios
 
     switch (testingScenario) {
       case 1:
@@ -17,6 +17,9 @@ public class Test {
         break;
       case 5:
         testEncodeAndDecode();
+        break;
+      case 6:
+        testChannel();
         break;
       default:
         System.out.println("No valid test scenario selected.");
@@ -85,5 +88,16 @@ public class Test {
     Printer.printMatrix(encoded);
     System.out.println("Decoded Vector:");
     Printer.printMatrix(reedMuller.decode(encoded));
+  }
+
+  private static void testChannel(){ // case 6
+    Matrix vector = new Matrix(new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
+    double errorProbability = 0.5;
+    Channel channel = new Channel(errorProbability);
+
+    System.out.println("Input Vector:");
+    Printer.printMatrix(vector);
+    System.out.println("Output Vector:");
+    Printer.printMatrix(channel.transmit(vector));
   }
 }
