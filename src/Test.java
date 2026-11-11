@@ -1,6 +1,6 @@
 public class Test {
   public static void main(String[] args){
-    int testingScenario = 3; // Change this value to select different test scenarios
+    int testingScenario = 5; // Change this value to select different test scenarios
 
     switch (testingScenario) {
       case 1:
@@ -11,6 +11,12 @@ public class Test {
         break;
       case 3:
         testGeneratorMatrix();
+        break;
+      case 4:
+        testDecode();
+        break;
+      case 5:
+        testEncodeAndDecode();
         break;
       default:
         System.out.println("No valid test scenario selected.");
@@ -46,5 +52,38 @@ public class Test {
     ReedMuller reedMuller = new ReedMuller(m);
     System.out.println("Generator Matrix for RM(1, " + m + "):");
     Printer.printMatrix(reedMuller.getGenerator());
+  }
+
+  private static void testDecode() { // case 4
+    // Examples taken from read literature
+
+    int m = 3; // RM(1, m)
+    ReedMuller reedMuller = new ReedMuller(m);
+
+    Matrix receivedVector = new Matrix(new int[][]{{1, 0, 1, 0, 1, 0, 1, 1}});
+    System.out.println("Received Vector:");
+    Printer.printMatrix(receivedVector);
+    System.out.println("Decoded Message Vector:");
+    Printer.printMatrix(reedMuller.decode(receivedVector));
+
+    Matrix receivedVector2 = new Matrix(new int[][]{{1, 0, 0, 0, 1, 1, 1, 1}});
+    System.out.println("Received Vector:");
+    Printer.printMatrix(receivedVector2);
+    System.out.println("Decoded Message Vector:");
+    Printer.printMatrix(reedMuller.decode(receivedVector2));
+  }
+
+  private static void testEncodeAndDecode() { // case 5
+    int m = 5; // RM(1, m)
+    ReedMuller reedMuller = new ReedMuller(m);
+
+    Matrix messageVector = new Matrix(new int[][]{{1, 1, 1, 0, 1, 0}});
+    System.out.println("Message Vector:");
+    Printer.printMatrix(messageVector);
+    Matrix encoded = reedMuller.encode(messageVector);
+    System.out.println("Encoded Vector:");
+    Printer.printMatrix(encoded);
+    System.out.println("Decoded Vector:");
+    Printer.printMatrix(reedMuller.decode(encoded));
   }
 }
