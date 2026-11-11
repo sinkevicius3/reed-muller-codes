@@ -21,7 +21,7 @@ public final class Arithmetics {
       }
     }
 
-    return applyModulo(new Matrix(product));
+    return new Matrix(product);
   }
 
   public static Matrix kroneckerProduct(Matrix a, Matrix b) {
@@ -37,7 +37,7 @@ public final class Arithmetics {
       }
     }
 
-    return applyModulo(new Matrix(kroneckerProduct));
+    return new Matrix(kroneckerProduct);
   }
 
   public static Matrix applyModulo(Matrix matrix) {
