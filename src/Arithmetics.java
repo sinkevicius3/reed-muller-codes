@@ -49,4 +49,19 @@ public final class Arithmetics {
     }
     return new Matrix(data);
   }
+
+  public static int pow(int base, int power) { // Method is for integer exponentiation
+    if (power < 0) {
+      throw new IllegalArgumentException("Power for integers must be non-negative.");
+    }
+    int result = 1;
+    while (power > 0) {
+      if ((power & 1) == 1) { // If power is odd
+        result *= base;
+      }
+      base *= base;
+      power >>= 1; // Divide power by 2
+    }
+    return result;
+  }
 }
