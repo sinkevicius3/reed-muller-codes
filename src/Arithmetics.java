@@ -29,9 +29,9 @@ public final class Arithmetics {
 
     for (int i = 0; i < a.getRows(); ++i) {
       for (int j = 0; j < a.getCols(); ++j) {
-        for (int k = 0; k < b.getRows(); ++k) {
-          for (int l = 0; l < b.getCols(); ++l) {
-            kroneckerProduct[i * b.getRows() + k][j * b.getCols() + l] = a.getDataCell(i, j) * b.getDataCell(k, l);
+        for (int i2 = 0; i2 < b.getRows(); ++i2) {
+          for (int j2 = 0; j2 < b.getCols(); ++j2) {
+            kroneckerProduct[i * b.getRows() + i2][j * b.getCols() + j2] = a.getDataCell(i, j) * b.getDataCell(i2, j2);
           }
         }
       }
