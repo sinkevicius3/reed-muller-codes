@@ -1,4 +1,9 @@
 public class Test {
+  /**
+   * Runs the test scenario selected by {@code testingScenario}.
+   *
+   * @param args command-line arguments, not used
+   */
   public static void main(String[] args){
     int testingScenario = 6; // Change this value to select different test scenarios
 
@@ -26,6 +31,7 @@ public class Test {
     }
   }
 
+  /** Tests matrix multiplication and Kronecker-product operations. */
   private static void testMatrixArithmetics() { // case 1
     Matrix a = new Matrix(2, 2, true);
     Matrix b = new Matrix(new int[][]{{-1, 0}, {0, 1}});
@@ -42,6 +48,7 @@ public class Test {
     Printer.printMatrix(kronecker);
   }
 
+  /** Tests integer exponentiation for powers from zero through {@code max_power}. */
   private static void testPow() { // case 2
     int base = 2;
     int max_power = 10;
@@ -50,6 +57,7 @@ public class Test {
     }
   }
 
+  /** Tests generating the generator matrix for an RM(1, {@code m}) code. */
   private static void testGeneratorMatrix() { // case 3
     int m = 3; // Change this value to test different RM(1, m) codes
     ReedMuller reedMuller = new ReedMuller(m);
@@ -57,6 +65,7 @@ public class Test {
     Printer.printMatrix(reedMuller.getGenerator());
   }
 
+  /** Tests decoding two example vectors using an RM(1, {@code m}) code. */
   private static void testDecode() { // case 4
     // Examples taken from read literature
 
@@ -76,6 +85,7 @@ public class Test {
     Printer.printMatrix(reedMuller.decode(receivedVector2));
   }
 
+  /** Tests encoding and decoding a message with an RM(1, {@code m}) code. */
   private static void testEncodeAndDecode() { // case 5
     int m = 5; // RM(1, m)
     ReedMuller reedMuller = new ReedMuller(m);
@@ -90,6 +100,7 @@ public class Test {
     Printer.printMatrix(reedMuller.decode(encoded));
   }
 
+  /** Tests data transmission through a binary channel with errors. */
   private static void testChannel(){ // case 6
     Matrix vector = new Matrix(new int[][]{{0, 0, 0, 0, 0, 0, 0, 0, 0, 0}});
     double errorProbability = 0.5;

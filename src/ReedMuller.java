@@ -10,6 +10,12 @@ public class ReedMuller {
 
   private final Matrix generator;
 
+  /**
+   * Creates an RM(1, m) code and builds its generator matrix.
+   *
+   * @param m number of boolean variables and codeword length is 2^m
+   * @throws IllegalArgumentException if {@code m} is less than 1
+   */
   public ReedMuller(int m) {
     if (m < 1) {
       throw new IllegalArgumentException("Parameter m must be at least 1.");
@@ -18,30 +24,65 @@ public class ReedMuller {
     this.generator = generateGeneratorMatrix();
   }
 
+  /**
+   * Returns the order of this Reed-Muller code.
+   *
+   * @return the code order, which is fixed at 1
+   */
   public int getOrder() {
     return r;
   }
 
+  /**
+   * Returns the number of Boolean variables used by this code.
+   *
+   * @return the value of {@code m}
+   */
   public int getM() {
     return m;
   }
 
+  /**
+   * Returns codeword length.
+   *
+   * @return the codeword length, equal to 2^{@code m}
+   */
   public int getCodewordLength() {
     return Arithmetics.pow(2, m);
   }
 
+  /**
+   * Returns the base generator matrix for RM(1, 1).
+   *
+   * @return the RM(1, 1) generator matrix
+   */
   private Matrix getG11() {
     return G11;
   }
 
+  /**
+   * Returns the Hadamard matrix used during decoding.
+   *
+   * @return the Hadamard matrix
+   */
   private Matrix getH() {
     return H;
   }
 
+  /**
+   * Returns this code's generator matrix.
+   *
+   * @return the generator matrix for RM(1, m)
+   */
   public Matrix getGenerator() {
     return generator;
   }
 
+  /**
+   * Builds the generator matrix for RM(1, m) by recursive expansion (implemented as a for loop).
+   *
+   * @return the generated RM(1, m) matrix
+   */
   private Matrix generateGeneratorMatrix() {
     Matrix current = getG11();
 
@@ -72,6 +113,13 @@ public class ReedMuller {
     return current; // if m = 1, this will return G11; if m > 1, this will return G(1,m)
   }
 
+  /**
+   * Encodes a message vector.
+   *
+   * @param messageVector message vector with {@code m + 1} columns
+   * @return the encoded codeword matrix
+   * @throws IllegalArgumentException if the message vector has invalid dimensions
+   */
   public Matrix encode(Matrix messageVector) {
     if (messageVector.getRows() != 1 || messageVector.getCols() != (getM() + 1)) {
       throw new IllegalArgumentException("Message vector must be a 1 x " + (getM() + 1) + " dimension matrix.");
@@ -80,6 +128,13 @@ public class ReedMuller {
     return Arithmetics.applyModulo(Arithmetics.multiply(messageVector, getGenerator()));
   }
 
+  /**
+   * Decodes a codeword using the Fast-Hadamard transform.
+   *
+   * @param receivedVector received vector with codeword-length columns
+   * @return the decoded message vector of size {@code m + 1}
+   * @throws IllegalArgumentException if the received vector has invalid dimensions
+   */
   public Matrix decode(Matrix receivedVector) {
     if (receivedVector.getRows() != 1 || receivedVector.getCols() != getCodewordLength()) {
       throw new IllegalArgumentException("Received vector must be a 1 x " + getCodewordLength() + " dimension matrix.");
