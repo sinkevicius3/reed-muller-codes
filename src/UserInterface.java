@@ -68,6 +68,8 @@ public class UserInterface {
     Printer.printMatrix(encoded);
     System.out.println("Transmitted Vector:");
     Printer.printMatrix(transmitted);
+    System.out.println("Number of Errors: " + channel.getErrorCount());
+    System.out.println("Positions of Errors: " + channel.getErrorPositions());
     printSeparator();
 
     while (true) {
