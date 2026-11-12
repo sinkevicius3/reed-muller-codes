@@ -1,7 +1,8 @@
 
 public class ReedMuller {
+
   private final int r = 1; // order of the Reed-Muller code, in our case r = 1 is fixed
-  private final int m; // 2^m is the codeword length; m is the number of Boolean variables
+  private final int m; // 2^m is the codeword length; m is the number of boolean variables
 
   private final Matrix G11 = new Matrix(new int[][]{{1, 1}, {0, 1}}); // generator matrix for RM(1, 1)
 
@@ -121,11 +122,7 @@ public class ReedMuller {
 
     // set the remaining coordinates based on the binary representation of max_idx (low-order digits first)
     for (int i = 1; i < messageVector.getCols(); ++i) {
-      if ((max_idx & 1) == 1) {
-        messageVector.setDataCell(0, i, 1);
-      } else {
-        messageVector.setDataCell(0, i, 0);
-      }
+      messageVector.setDataCell(0, i, max_idx & 1);
       max_idx >>= 1; // right shift to check the next bit
     }
 
