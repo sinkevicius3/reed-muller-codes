@@ -5,10 +5,26 @@ import java.util.Random;
 public class Experiment {
 
   private static volatile Matrix decoded;
+
+  /**
+   * Runs the selected experiment.
+   *
+   * @param args command-line arguments, not used
+   * @throws Exception if an error occurs during the experiment
+   */
   public static void main(String[] args) {
     experiment1(10, 100, 500, 0.25);
   }
 
+  /**
+   * Implements experiment1, which measures the average decoding time for Reed-Muller codes RM(1, m) 
+   * and saves the results to a CSV file.
+   *
+   * @param maxM the maximum m value for RM(1, m) to experiment with
+   * @param warmupTrials the number of warm-up trials before timing to ensure accurate measurements
+   * @param trials the number of trials to run for each m
+   * @param errorProbability the probability of error in the channel
+   */
   public static void experiment1(int maxM, int warmupTrials, int trials, double errorProbability) {
     Random rng = new Random(0);
 
