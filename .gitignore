@@ -1,6 +1,7 @@
 # Compiled Java files
 *.class
 bin/
+build/
 
 # VS code
 .vscode
