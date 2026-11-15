@@ -15,9 +15,10 @@ public class Experiment {
     try (FileWriter writer = new FileWriter("experiments/experiment1.csv")) {
       writer.write("m,decode_microseconds\n");
 
+      Channel channel = new Channel(errorProbability);
+
       for (int m = 1; m <= maxM; ++m) {
         ReedMuller reedMuller = new ReedMuller(m);
-        Channel channel = new Channel(errorProbability);
         long totalTimeUs = 0;
 
         for (int j = -warmupTrials; j < trials; ++j) {
