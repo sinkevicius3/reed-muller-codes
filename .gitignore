@@ -8,3 +8,6 @@ build/
 
 # Experiment results
 experiments/
+
+# Zip files
+*.zip
