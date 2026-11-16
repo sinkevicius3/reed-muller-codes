@@ -13,7 +13,8 @@ public class Experiment {
    * @throws Exception if an error occurs during the experiment
    */
   public static void main(String[] args) {
-    experiment1(10, 100, 500, 0.25);
+    experiment1(10, 100, 1000, 0.10, "experiments/experiment1.csv");
+    experiment1(10, 100, 1000, 0.25, "experiments/experiment2.csv");
   }
 
   /**
@@ -24,18 +25,20 @@ public class Experiment {
    * @param warmupTrials the number of warm-up trials before timing to ensure accurate measurements
    * @param trials the number of trials to run for each m
    * @param errorProbability the probability of error in the channel
+   * @param path the path to the CSV file to save the results to
    */
-  public static void experiment1(int maxM, int warmupTrials, int trials, double errorProbability) {
+  public static void experiment1(int maxM, int warmupTrials, int trials, double errorProbability, String path) {
     Random rng = new Random(0);
 
-    try (FileWriter writer = new FileWriter("experiments/experiment1.csv")) {
-      writer.write("m,decode_microseconds\n");
+    try (FileWriter writer = new FileWriter(path)) {
+      writer.write("m,decode_microseconds,uncorrected_errors\n");
 
       Channel channel = new Channel(errorProbability);
 
       for (int m = 1; m <= maxM; ++m) {
         ReedMuller reedMuller = new ReedMuller(m);
-        long totalTimeUs = 0;
+        long totalTimeNs = 0;
+        long uncorrectedCount = 0;
 
         for (int j = -warmupTrials; j < trials; ++j) {
           Matrix vector = new Matrix(1, m + 1);
@@ -51,10 +54,17 @@ public class Experiment {
           long end = System.nanoTime();
 
           if (j >= 0) {
-            totalTimeUs += (end - start);
+            totalTimeNs += (end - start);
+
+            Matrix encodedDecoded = reedMuller.encode(decoded);
+            for (int i = 0; i < encoded.getCols(); ++i) {
+              if (encoded.getDataCell(0, i) != encodedDecoded.getDataCell(0, i)) {
+                ++uncorrectedCount;
+              }
+            }
           }
         }
-        writer.write(m + "," + (int)(totalTimeUs / 1000.0 / trials) + "\n");
+        writer.write(String.format("%d,%d,%.2f%n", m, (int)(totalTimeNs / 1000.0 / trials), (uncorrectedCount / (double) trials)));
       }
     } catch (IOException e) {
       e.printStackTrace();
